@@ -113,8 +113,8 @@ def process_true_false_dataset(tokenizer, model, model_id, device, layer_idx, ba
         print(f"Finished processing {filename}.")
 
     # Save the processed data
-    train_output_path = os.path.join(output_dir, "train_data.json")
-    test_output_path = os.path.join(output_dir, "test_data.json")
+    train_output_path = os.path.join(output_dir, "train.json")
+    test_output_path = os.path.join(output_dir, "test.json")
 
     try:
         with open(train_output_path, "w") as f:

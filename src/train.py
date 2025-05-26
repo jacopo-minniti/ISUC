@@ -23,8 +23,8 @@ def train(args):
     
     # Load datasets
     DATASET_PATH = f"./data/{args.dataset}/prepared"
-    train_dataset = ActivationsDataset(os.path.join(DATASET_PATH, f"train.csv"), args.layer_idx)
-    test_dataset = ActivationsDataset(os.path.join(DATASET_PATH, f"test.csv"), args.layer_idx)
+    train_dataset = ActivationsDataset(os.path.join(DATASET_PATH, f"train.json"))
+    test_dataset = ActivationsDataset(os.path.join(DATASET_PATH, f"test.json"))
     
     # Create data loaders
     train_loader = DataLoader(
