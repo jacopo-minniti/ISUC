@@ -11,7 +11,6 @@ from prepare_data import collect_internal_states
 
 load_dotenv()
 
-
 def main():
     # Retrieve the latest version based on the timestamp in the filenames
     model_files = glob.glob("./models/isuc-v*.pt")
