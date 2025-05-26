@@ -10,7 +10,7 @@ def collect_internal_states(model_id: str, dataset: str, layer_idx: int) -> None
     for a given dataset, processes the data, and saves it in JSON format.
 
     Args:
-        model_id (str): The Hugging Face model ID (e.g., "gpt2", "meta-llama/Llama-2-7b-hf").
+        model_id (str): The Hugging Face model ID (e.g., "meta-llama/Llama-2-7b-hf").
         dataset (str): The name of the dataset to process (e.g., "true-false").
         layer_idx (int): The index of the layer from which to extract activations (0-indexed for transformer layers).
     """
@@ -19,11 +19,13 @@ def collect_internal_states(model_id: str, dataset: str, layer_idx: int) -> None
     os.makedirs(output_dir, exist_ok=True)
 
     try:
+        print(f"Loading model {model_id}...")
         tokenizer = AutoTokenizer.from_pretrained(model_id)
         model = AutoModelForCausalLM.from_pretrained(model_id)
         model.eval() # Set model to evaluation mode
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         model.to(device)
+        print(f"Loaded {model_id} on {device}")
 
         # Add padding token if it doesn't exist (common for some models like Llama)
         if tokenizer.pad_token is None:

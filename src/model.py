@@ -19,7 +19,6 @@ class ActivationsDataset(Dataset):
                                      (Note: This parameter is currently not directly used
                                      for data parsing but kept for consistency with original signature).
         """
-        self.activations_layer = activations_layer # Store for potential future use, though not used in parsing here.
 
         try:
             with open(path, 'r') as f:

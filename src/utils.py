@@ -1,7 +1,7 @@
 import torch
 import os
 
-from model import ISUC
+from src.model import ISUC
 
 
 def load_model(input_size: int, checkpoint_path: str) -> ISUC:

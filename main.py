@@ -7,7 +7,7 @@ import wandb
 from dotenv import load_dotenv
 
 from src.train import train
-from prepare_data import collect_internal_states
+from src.prepare_data import collect_internal_states
 
 load_dotenv()
 
@@ -27,7 +27,7 @@ def main():
 
     parser = argparse.ArgumentParser(description="Train a hallucination classifier")
 
-    parser.add_argument("--model", type=str, default="meta-llama/Llama-3.1-8B")
+    parser.add_argument("--model", type=str, default="meta-llama/Llama-3.1-8B-Instruct")
     parser.add_argument("--batch_size", type=int, default=64)
     parser.add_argument("--lr", type=float, default=0.001)
     parser.add_argument("--epochs", type=int, default=5)
@@ -41,25 +41,25 @@ def main():
     parser.add_argument("--dataset", type=str, default=f"true-false")
     
     args = parser.parse_args()
-
-    # login to wandb if not already
-    wandb.login()
-    wandb.init(project="ISUC")
     
     # prepare data if not already prepared
     DATASET_PATH = f"./data/{args.dataset}/prepared"
-    if not os.path.exists(DATASET_PATH):
-        os.makedirs(DATASET_PATH)
+    if not os.path.exists(DATASET_PATH) or "train.json" not in os.listdir(DATASET_PATH):
+        os.makedirs(DATASET_PATH, exist_ok=True)
         print(f"Created dataset directory at {DATASET_PATH}")
         collect_internal_states(args.model, args.dataset, args.layer_idx)
     
+    # login to wandb if not already
+    # wandb.login()
+    # wandb.init(project="ISUC")
+    
     # Start training
-    model, metrics = train(args)
+    # model, metrics = train(args)
     
     # terminate run
-    wandb.finish()
-    print("Final Metrics\n", metrics)
-    print("##### RUN TERMINATED #####")
+    # wandb.finish()
+    # print("Final Metrics\n", metrics)
+    # print("##### RUN TERMINATED #####")
 
 
 if __name__ == "__main__":

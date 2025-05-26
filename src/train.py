@@ -12,9 +12,9 @@ import torch.optim as optim
 
 from tqdm import tqdm
 
-from evaluate import evaluate
-from utils import load_model
-from model import ActivationsDataset
+from src.evaluate import evaluate
+from src.utils import load_model
+from src.model import ActivationsDataset
 
 
 def train(args):
