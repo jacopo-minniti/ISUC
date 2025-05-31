@@ -1,6 +1,10 @@
-# Uncertainty Classifiers using LLM Internal States (ISUC)
+# Internal States Uncertainty Classifier (ISUC)
 
-A general framework for training uncertainty classifiers using internal activations from Large Language Models. This codebase is designed to be modular and extensible for reproducing multiple papers on uncertainty classification.
+**ISUC is a general framework for training uncertainty classifiers using internal activations from Large Language Models.**
+
+With the growing literature on uncertainty and hallucinations, it is increasingly important to compare different methods for evaluating and acting upon uncertainty. Many studies have shown that LLMs encode information about their confidence and the truthfulness of the generated content in their internal states, but this information is not explicitly expressed in the output. This motivates the need to inspect their internal representations.
+
+Such classifiers can be used at **inference time** (e.g., detecting when the LLM is lying) or during **training** (e.g., using ISUC as a reward model). This codebase is modular and extensible, enabling the **reproduction of multiple papers on uncertainty classification**. Pretrained models will be uploaded to Hugging Face for the community to use.
 
 ## 🏗️ Architecture
 
@@ -9,28 +13,6 @@ The framework is built with clean abstractions that allow easy extension for dif
 - **Models**: Add new classifier architectures by extending `BaseUncertaintyClassifier`
 - **Activation Extractors**: Support different model types by implementing `BaseActivationExtractor`
 
-### Project Structure
-
-```
-src/
-├── base.py              # Base classes and interfaces
-├── activations.py       # Activation extraction from LLMs
-├── data_processors.py   # Dataset-specific processors
-├── model.py            # Classifier architectures
-├── train.py            # Training utilities
-├── evaluate.py         # Evaluation metrics
-└── utils.py            # Utility functions
-
-test/
-├── test_base.py        # Tests for base classes
-├── test_models.py      # Tests for model architectures
-├── classify_query.py   # Single query classification
-├── sample_test_set.py  # Sample evaluation utility
-└── run_tests.py        # Test runner
-
-examples.py             # Usage examples
-main.py                 # Main training script
-```
 
 ## 🚀 Quick Start
 
@@ -54,10 +36,7 @@ python main.py \
 ### 2. Different Classifier Types
 ```bash
 # Train ISUC classifier (Azaria & Mitchell, 2023)
-python main.py --classifier_type isuc
-
-# Train Simple MLP classifier
-python main.py --classifier_type simple_mlp
+python main.py --classifier_type SAPLMA
 ```
 
 ### 3. Skip Data Processing (if already done)
@@ -67,15 +46,10 @@ python main.py --skip_data_processing --use_wandb
 
 ## 📊 Available Classifiers
 
-### ISUC Classifier
+### SAPLMA Classifier
 Based on Azaria & Mitchell (2023), designed for uncertainty detection using internal states.
 - Architecture: 256 → 128 → 64 → 1 with ReLU and Dropout
 - Optimized for LLM activation patterns
-
-### Simple MLP Classifier
-Configurable multi-layer perceptron for experimentation.
-- Customizable hidden dimensions
-- Good baseline for comparison
 
 ## 🔧 Adding New Components
 
@@ -98,23 +72,6 @@ class MyClassifier(BaseUncertaintyClassifier):
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         # Implement your classifier architecture
         pass
-```
-
-## 🧪 Testing
-
-Run all tests:
-```bash
-python test/run_tests.py
-```
-
-Test a single query:
-```bash
-python test/classify_query.py "The Earth is flat"
-```
-
-Evaluate on a sample:
-```bash
-python test/sample_test_set.py ./models/isuc-v05-26.pt isuc ./data/true-false/prepared/test.json 100
 ```
 
 ## 🛠️ Command Line Options
