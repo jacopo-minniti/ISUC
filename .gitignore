@@ -1,8 +1,38 @@
+# Environment files
 .env
+.venv/
+env/
+venv/
 
+# Python cache
 __pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
 
+# Weights & Biases
 wandb/
 
-models/*
-data/true-false/prepared/
+# Model checkpoints and data
+models/*.pt
+data/*/prepared/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
